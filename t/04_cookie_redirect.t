@@ -8,7 +8,8 @@ use HTTP::Session::State::Cookie;
 
 my $r = t::Request->new(
     in => {
-        Host => 'example.com'
+        Host => 'example.com',
+        Cookie => '',
     },
     params => { },
 );
