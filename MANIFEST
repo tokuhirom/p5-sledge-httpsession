@@ -1,4 +1,5 @@
 Changes
+inc/Class/Trigger.pm
 inc/Module/Install.pm
 inc/Module/Install/AuthorTests.pm
 inc/Module/Install/Base.pm
@@ -18,11 +19,22 @@ inc/Test/Builder/Module.pm
 inc/Test/More.pm
 inc/YAML.pm
 lib/Sledge/HTTPSession.pm
+lib/Sledge/HTTPSession/Plugin.pm
+lib/Sledge/HTTPSession/Request.pm
+lib/Sledge/HTTPSession/Response.pm
+lib/Sledge/HTTPSession/Session.pm
+lib/Sledge/HTTPSession/SessionManager.pm
 Makefile.PL
 MANIFEST			This list of files
 META.yml
 README
 t/00_compile.t
+t/01_cookie.t
+t/02_uri.t
+t/03_uri_redirect.t
+t/04_cookie_redirect.t
+t/Pages.pm
+t/Request.pm
 xt/01_podspell.t
 xt/02_perlcritic.t
 xt/03_pod.t
