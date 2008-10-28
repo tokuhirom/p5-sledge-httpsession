@@ -34,6 +34,7 @@ has session => (
 );
 has manager => (
     is => 'rw',
+    default => sub { shift->create_manager },
 );
 has r => (
     is => 'ro',
@@ -68,15 +69,15 @@ sub add_filter {
     my ($self, $filter) = @_;
     push @{$self->{filters}}, $filter;
 }
+sub init_dispatch {
+    my ($self, $page) = @_;
+    $self->construct_session();
+}
 sub dispatch {
     my ($self, $page) = @_;
 
-    $self->manager( $self->create_manager );
-    my $session = $self->manager()->get_session;
-    $self->session( $session );
-    $self->manager->set_session( $session ) if $session->is_fresh;
-
-    $self->call_trigger('BEFORE_DISPATCH');
+    $self->init_dispatch();
+    $self->call_trigger('BEFORE_DISPATCH') unless $self->finished;
     $self->callback->($self);
     if (!$self->finished) {
         my $html = $self->content;

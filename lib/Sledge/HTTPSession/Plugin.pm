@@ -3,7 +3,6 @@ use strict;
 use warnings;
 use HTTP::Session;
 use Sledge::HTTPSession::Session;
-use Sledge::HTTPSession::SessionManager;
 use Sledge::HTTPSession::Request;
 use Sledge::HTTPSession::Response;
 
@@ -35,10 +34,13 @@ sub import {
         return $self->$super( $uri, $scheme );
 
     };
-    *{"$pkg\::create_manager"} = \&_create_manager;
+    *{"$pkg\::create_manager"}    = \&_create_manager;
+    *{"$pkg\::construct_session"} = \&_construct_session;
 }
 
-sub _create_manager {
+sub _create_manager { }
+
+sub _construct_session {
     my $self    = shift;
     my $store   = $self->create_session_store();
     my $state   = $self->create_session_state();
@@ -48,9 +50,11 @@ sub _create_manager {
         request => Sledge::HTTPSession::Request->new( $self->r ),
         _page   => $self,
     );
-    my $res = Sledge::HTTPSession::Response->new( $self->r );
-    $session->header_filter($res);
-    return Sledge::HTTPSession::SessionManager->new( $session );
+    if ($session->is_fresh) {
+        my $res = Sledge::HTTPSession::Response->new( $self->r );
+        $session->header_filter($res);
+    }
+    $self->session($session);
 }
 
 sub HTTP::Session::param {
