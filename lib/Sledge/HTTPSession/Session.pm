@@ -17,4 +17,5 @@ sub regenerate_session_id {
     $self->_page->session->header_filter($res);
 }
 
+no Moose; __PACKAGE__->meta->make_immutable;
 1;
