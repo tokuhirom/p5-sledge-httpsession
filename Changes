@@ -1,5 +1,9 @@
 Revision history for Perl extension Sledge::HTTPSession
 
+0.03
+
+    - depend to HTTP::Session 0.21
+
 0.02
 
     - make_immutable(reported by walf443++)
