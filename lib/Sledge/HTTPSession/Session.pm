@@ -1,12 +1,9 @@
 package Sledge::HTTPSession::Session;
-use Moose;
-extends 'HTTP::Session';
+use strict;
+use warnings;
+use base qw/HTTP::Session/;
 
-has _page => (
-    is       => 'ro',
-    isa      => 'Sledge::Pages::Base',
-    required => 1,
-);
+__PACKAGE__->mk_ro_accessors(qw/_page/);
 
 sub regenerate_session_id {
     my $self = shift;
@@ -17,5 +14,5 @@ sub regenerate_session_id {
     $self->_page->session->header_filter($res);
 }
 
-no Moose; __PACKAGE__->meta->make_immutable;
 1;
+

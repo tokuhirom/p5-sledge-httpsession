@@ -1,5 +1,7 @@
+use strict;
+use warnings;
+
 package Sledge::Pages::Base;
-use Moose;
 sub REDIRECT { 302 }
 sub redirect {
     my ( $self, $url, $scheme ) = @_;
@@ -21,49 +23,20 @@ sub current_url {
     $url .= '?' . $self->r->args if $self->r->args;
     return $url;
 }
+
 package t::Pages;
-use Moose;
-unshift @t::Pages::ISA, 'Sledge::Pages::Base';
+unshift @t::Pages::ISA, 'Class::Accessor::Fast', 'Sledge::Pages::Base';
 use Class::Trigger qw/BEFORE_DISPATCH/;
 use Sledge::HTTPSession::Plugin;
 use Test::More;
 use HTTP::Session::Store::Test;
 
-has session => (
-    is => 'rw',
-);
-has manager => (
-    is => 'rw',
-    default => sub { shift->create_manager },
-);
-has r => (
-    is => 'ro',
-    requires => 1,
-);
-has state => (
-    is => 'ro',
-    does => 'HTTP::Session::Role::State',
-    requires => 1,
-);
-has store => (
-    is => 'ro',
-    does => 'HTTP::Session::Role::Store',
-    requires => 1,
-);
-has callback => (
-    is       => 'ro',
-    isa      => 'CodeRef',
-    requires => 1,
-);
-has finished => (
-    is      => 'rw',
-    isa     => 'Bool',
-    default => 0,
-);
-has content => (
-    is => 'rw',
-    isa => 'Str|Undef',
-);
+__PACKAGE__->mk_accessors(qw/session manager r state store callback finished content/);
+
+sub new {
+    my $class = shift;
+    bless {@_}, $class;
+}
 
 sub add_filter {
     my ($self, $filter) = @_;
@@ -72,6 +45,7 @@ sub add_filter {
 sub init_dispatch {
     my ($self, $page) = @_;
     $self->construct_session();
+    $self->manager( $self->create_manager);
 }
 sub dispatch {
     my ($self, $page) = @_;
