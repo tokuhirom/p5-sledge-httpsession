@@ -21,21 +21,27 @@ sub import {
         },
     );
 
-    no strict 'refs';
-    *{"$pkg\::redirect"} = sub {
-        my($self, $path, $scheme) = @_;
-        my $super = 'Sledge::Pages::Base::redirect';
-        if ( $path =~ /^http/ ) {
-            # redirect to other server!
-            return $self->$super( $path, $scheme );
-        }
-        my $uri = $self->make_absolute_url($path, $scheme);
-        $uri = $self->session->redirect_filter($uri->as_string);
-        return $self->$super( $uri, $scheme );
+    {
+        no strict 'refs';
+        *{"$pkg\::redirect"} = sub {
+            my($self, $path, $scheme) = @_;
+            my $super = 'Sledge::Pages::Base::redirect';
+            if ( $path =~ /^http/ ) {
+                # redirect to other server!
+                return $self->$super( $path, $scheme );
+            }
+            my $uri = $self->make_absolute_url($path, $scheme);
+            $uri = $self->session->redirect_filter($uri->as_string);
+            return $self->$super( $uri, $scheme );
 
-    };
-    *{"$pkg\::create_manager"}    = \&_create_manager;
-    *{"$pkg\::construct_session"} = \&_construct_session;
+        };
+        {
+            # implement Sledge's create_manager.
+            no warnings 'redefine';
+            *{"$pkg\::create_manager"}    = \&_create_manager;
+        }
+        *{"$pkg\::construct_session"} = \&_construct_session;
+    }
 }
 
 sub _create_manager { }
