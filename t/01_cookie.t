@@ -1,6 +1,6 @@
 use strict;
 use warnings;
-use Test::More tests => 6;
+use Test::More tests => 8;
 use CGI;
 use t::Pages;
 use t::Request;
@@ -51,6 +51,10 @@ sub {
             isa_ok $self->session, 'Sledge::HTTPSession::Session';
             is $self->session->session_id, 'deadbeaf';
             $self->session->param('foo' => 'bar');
+            is $self->session->param('foo'), 'bar';
+            $self->session->param('bar' => 'buz');
+            $self->session->remove_all;
+            ok !$self->session->param('bar');
             $self->content('foobar');
         },
     );

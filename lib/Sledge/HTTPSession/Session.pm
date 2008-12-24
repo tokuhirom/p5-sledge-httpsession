@@ -14,5 +14,12 @@ sub regenerate_session_id {
     $self->_page->session->header_filter($res);
 }
 
+sub remove_all {
+    my $self = shift;
+    for my $key ($self->keys) {
+        $self->remove($key);
+    }
+}
+
 1;
 
