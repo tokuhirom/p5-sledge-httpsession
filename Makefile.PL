@@ -3,7 +3,7 @@ name 'Sledge-HTTPSession';
 all_from 'lib/Sledge/HTTPSession.pm';
 
 requires 'Moose' => 0.59;
-requires 'HTTP::Session' => 0.21;
+requires 'HTTP::Session' => 0.28;
 requires 'CGI';
 
 tests 't/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t';
