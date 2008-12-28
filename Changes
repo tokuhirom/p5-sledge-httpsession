@@ -1,5 +1,9 @@
 Revision history for Perl extension Sledge::HTTPSession
 
+0.04
+    - add remove_all method to session
+    - depend to HTTP::Session 0.28
+
 0.03
 
     - depend to HTTP::Session 0.21
