@@ -2,7 +2,7 @@ package Sledge::HTTPSession;
 use strict;
 use warnings;
 use 5.00800;
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 1;
 __END__

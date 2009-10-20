@@ -1,3 +1,4 @@
+.gitignore
 Changes
 inc/Class/Trigger.pm
 inc/Module/Install.pm
