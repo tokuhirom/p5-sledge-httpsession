@@ -5,6 +5,7 @@ all_from 'lib/Sledge/HTTPSession.pm';
 requires 'Moose' => 0.59;
 requires 'HTTP::Session' => 0.28;
 requires 'CGI';
+requires 'HTML::StickyQuery'; # Sledge depend to this
 
 tests 't/*.t t/*/*.t t/*/*/*.t t/*/*/*/*.t';
 test_requires 'Class::Trigger';
